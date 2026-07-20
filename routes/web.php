@@ -1,33 +1,14 @@
 <?php
 
+use App\Http\Controllers\Admin\MarkNotificationsReadController;
 use App\Http\Controllers\Admin\PurchaseController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\UserController;
-use App\Models\Cart;
+use App\Http\Controllers\CartCountController;
+use App\Http\Controllers\DashboardRedirectController;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
-
-// Test route to diagnose routing issues
-Route::get('/test-route', function () {
-    return response()->json([
-        'message' => 'Test route works!',
-        'url' => url('/'),
-        'app_url' => config('app.url'),
-        'request_uri' => request()->getRequestUri(),
-        'method' => request()->method(),
-    ]);
-})->name('test.route');
-
-// Test middleware
-Route::get('/test-admin', function () {
-    return response()->json([
-        'message' => 'Admin middleware works!',
-        'user' => auth()->user()->only(['id', 'name', 'email', 'user_type']),
-        'roles' => auth()->user()->roles->pluck('name'),
-        'hasRole' => auth()->user()->hasRole('Administrator'),
-    ]);
-})->middleware(['auth', 'admin'])->name('test.admin');
 
 // Public Routes
 Volt::route('/', 'public.home')->name('home');
@@ -61,11 +42,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Volt::route('/dashboard', 'admin.dashboard')->name('dashboard');
 
     // Notifications
-    Route::post('/notifications/mark-all-read', function () {
-        auth()->user()->unreadNotifications->markAsRead();
-
-        return back();
-    })->name('notifications.mark-all-read');
+    Route::post('/notifications/mark-all-read', MarkNotificationsReadController::class)
+        ->name('notifications.mark-all-read');
 
     // Users (Volt + Controller for mutations)
     Volt::route('/users', 'admin.users.index')->name('users.index');
@@ -180,36 +158,13 @@ Route::middleware(['auth', 'employee'])->prefix('employee')->name('employee.')->
 });
 
 // Cart API endpoint for count
-Route::get('/api/cart/count', function () {
-    if (auth()->check()) {
-        $cart = Cart::where('user_id', auth()->id())->where('status', 'active')->first();
-        return response()->json(['count' => $cart ? $cart->items()->sum('quantity') : 0]);
-    }
-    $sessionCart = session()->get('guest_cart', []);
-    $count = array_sum(array_column($sessionCart, 'quantity'));
-    return response()->json(['count' => $count]);
-})->name('api.cart.count');
+Route::get('/api/cart/count', CartCountController::class)->name('api.cart.count');
 
 // Settings Routes (Authenticated Users)
 Route::middleware(['auth'])->group(function () {
-    Route::get('dashboard', function () {
-        $user = auth()->user();
-        if ($user->isAdmin()) {
-            return redirect()->route('admin.dashboard');
-        }
-        if ($user->isEmployee()) {
-            $roleName = $user->roles->first()?->name ?? '';
-            $map = [
-                'Chef'              => 'employee.chef.dashboard',
-                'Waiter'            => 'employee.waiter.dashboard',
-                'Cashier'           => 'employee.cashier.dashboard',
-                'Receptionist'      => 'employee.receptionist.dashboard',
-                'Inventory Officer' => 'employee.inventory-officer.dashboard',
-            ];
-            return redirect()->route($map[$roleName] ?? 'employee.chef.dashboard');
-        }
-        return redirect()->route('customer.dashboard');
-    })->middleware(['verified'])->name('dashboard');
+    Route::get('dashboard', \App\Http\Controllers\DashboardRedirectController::class)
+        ->middleware(['verified'])
+        ->name('dashboard');
 
     Route::redirect('settings', 'settings/profile');
 
