@@ -299,7 +299,7 @@
         </div>
 
         <div class="border-t border-gray-800">
-            <div class="container mx-auto px-4 py-5 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
+            <div class="public-container py-4 sm:py-5 flex flex-col md:flex-row justify-between items-center text-xs sm:text-sm text-gray-500">
                 <p>{{ \App\Models\SiteSetting::get('footer_content', '© ' . date('Y') . ' Colevora Restaurant. All rights reserved.') }}</p>
                 <div class="flex space-x-4 mt-2 md:mt-0">
                     @if($privacy = \App\Models\SiteSetting::get('privacy_policy_url'))
@@ -335,8 +335,8 @@
 
     {{-- Cookie Consent --}}
     <div x-show="!cookieConsent" x-cloak
-         class="fixed bottom-0 left-0 right-0 z-50 bg-gray-900 text-white px-6 py-4 shadow-2xl">
-        <div class="container mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+         class="fixed bottom-0 left-0 right-0 z-50 bg-gray-900 text-white px-4 sm:px-6 py-3 sm:py-4 shadow-2xl">
+        <div class="public-container flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
             <p class="text-sm text-gray-300">{{ \App\Models\SiteSetting::get('cookie_consent_text', 'We use cookies to enhance your experience.') }}</p>
             <div class="flex space-x-3 flex-shrink-0">
                 @if($privacy = \App\Models\SiteSetting::get('privacy_policy_url'))
