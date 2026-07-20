@@ -1,0 +1,62 @@
+/.phpunit.cache
+/node_modules
+/public/build
+/public/hot
+/public/storage
+/storage/*.key
+/storage/pail
+/vendor
+.DS_Store
+.env
+.env.backup
+.env.production
+.phpactor.json
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+auth.json
+npm-debug.log
+yarn-error.log
+/.fleet
+/.idea
+/.nova
+/.vscode
+/.zed
+
+# Database files
+database/database.sqlite
+*.sqlite
+*.sqlite-journal
+
+# Sensitive configuration
+.env.local
+.env.*.local
+
+# Cache and compiled files
+/bootstrap/cache/*.php
+!/bootstrap/cache/.gitkeep
+/storage/framework/cache/data/*
+!/storage/framework/cache/data/.gitkeep
+/storage/framework/sessions/*
+!/storage/framework/sessions/.gitkeep
+/storage/framework/views/*
+!/storage/framework/views/.gitkeep
+/storage/logs/*
+!/storage/logs/.gitkeep
+/storage/app/*
+!/storage/app/.gitkeep
+!/storage/app/public
+/storage/app/public/*
+!/storage/app/public/.gitkeep
+
+# Test scripts (development only)
+test-*.php
+verify-*.php
+
+# IDE and Kiro specific
+.kiro/
+.agents/skills/*/node_modules
+
+# OS files
+Thumbs.db
+.DS_Store

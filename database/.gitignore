@@ -1,0 +1,4 @@
+*.backup
+*.old
+*.sqlite
+*.sqlite3
