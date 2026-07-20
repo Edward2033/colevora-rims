@@ -40,28 +40,28 @@ $delete = function (int $id) {
         </x-admin.page-header>
 
         @if(session('success'))
-            <div class="mb-4 p-3 bg-green-50 border border-green-200 text-green-700 rounded-lg text-sm">{{ session('success') }}</div>
+            <div class="mb-4 p-3 bg-green-500/10 border border-green-500/20 text-green-400 rounded-lg text-sm">{{ session('success') }}</div>
         @endif
 
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 mb-5">
+        <div class="glass-card rounded-xl border border-white/[0.08] p-4 mb-5">
             <div class="flex flex-col sm:flex-row gap-3">
                 <div class="flex-1">
                     <input type="text" wire:model.live.debounce.300ms="search"
                         placeholder="Search by PO# or supplier..."
-                        class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+                        class="w-full px-3 py-2 text-sm border border-white/10 bg-white/5 text-gray-200 placeholder-gray-500 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent">
                 </div>
-                <select wire:model.live="statusFilter" class="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500">
-                    <option value="">All Status</option>
-                    <option value="pending">Pending</option>
-                    <option value="approved">Approved</option>
-                    <option value="received">Received</option>
-                    <option value="completed">Completed</option>
-                    <option value="cancelled">Cancelled</option>
+                <select wire:model.live="statusFilter" class="px-3 py-2 text-sm border border-white/10 bg-white/5 text-gray-200 rounded-lg focus:ring-2 focus:ring-amber-500">
+                    <option value="" class="bg-gray-900">All Status</option>
+                    <option value="pending" class="bg-gray-900">Pending</option>
+                    <option value="approved" class="bg-gray-900">Approved</option>
+                    <option value="received" class="bg-gray-900">Received</option>
+                    <option value="completed" class="bg-gray-900">Completed</option>
+                    <option value="cancelled" class="bg-gray-900">Cancelled</option>
                 </select>
-                <select wire:model.live="perPage" class="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500">
-                    <option value="10">10 / page</option>
-                    <option value="15">15 / page</option>
-                    <option value="25">25 / page</option>
+                <select wire:model.live="perPage" class="px-3 py-2 text-sm border border-white/10 bg-white/5 text-gray-200 rounded-lg focus:ring-2 focus:ring-amber-500">
+                    <option value="10" class="bg-gray-900">10 / page</option>
+                    <option value="15" class="bg-gray-900">15 / page</option>
+                    <option value="25" class="bg-gray-900">25 / page</option>
                 </select>
             </div>
         </div>
@@ -71,22 +71,22 @@ $delete = function (int $id) {
                 @php
                     $statusColors = ['pending'=>'yellow','approved'=>'blue','received'=>'purple','completed'=>'green','cancelled'=>'red'];
                 @endphp
-                <tr class="hover:bg-gray-50 transition" wire:key="purchase-{{ $purchase->id }}">
-                    <td class="px-4 py-3 text-xs font-mono font-medium text-gray-900">{{ $purchase->purchase_number }}</td>
-                    <td class="px-4 py-3 text-sm text-gray-700">{{ $purchase->supplier?->name ?? '—' }}</td>
+                <tr class="hover:bg-amber-500/5 transition" wire:key="purchase-{{ $purchase->id }}">
+                    <td class="px-4 py-3 text-xs font-mono font-medium text-gray-200">{{ $purchase->purchase_number }}</td>
+                    <td class="px-4 py-3 text-sm text-gray-300">{{ $purchase->supplier?->name ?? '—' }}</td>
                     <td class="px-4 py-3"><x-admin.badge :label="$purchase->items_count" color="blue"/></td>
-                    <td class="px-4 py-3 text-sm font-semibold text-gray-900">${{ number_format($purchase->total_amount, 2) }}</td>
+                    <td class="px-4 py-3 text-sm font-semibold text-white">${{ number_format($purchase->total_amount, 2) }}</td>
                     <td class="px-4 py-3">
                         <x-admin.badge :label="ucfirst($purchase->status)" :color="$statusColors[$purchase->status] ?? 'gray'"/>
                     </td>
-                    <td class="px-4 py-3 text-sm text-gray-600">{{ $purchase->creator?->name ?? '—' }}</td>
-                    <td class="px-4 py-3 text-xs text-gray-500">{{ $purchase->created_at->format('M d, Y') }}</td>
+                    <td class="px-4 py-3 text-sm text-gray-300">{{ $purchase->creator?->name ?? '—' }}</td>
+                    <td class="px-4 py-3 text-xs text-gray-400">{{ $purchase->created_at->format('M d, Y') }}</td>
                     <td class="px-4 py-3">
                         <div class="flex items-center gap-2">
-                            <a href="{{ route('admin.purchases.show', $purchase) }}" class="text-blue-600 hover:text-blue-800 text-xs font-medium">View</a>
+                            <a href="{{ route('admin.purchases.show', $purchase) }}" class="text-blue-400 hover:text-blue-300 text-xs font-medium">View</a>
                             @if($purchase->status === 'pending')
-                                <a href="{{ route('admin.purchases.edit', $purchase) }}" class="text-orange-600 hover:text-orange-800 text-xs font-medium">Edit</a>
-                                <button wire:click="delete({{ $purchase->id }})" wire:confirm="Delete this purchase?" class="text-red-600 hover:text-red-800 text-xs font-medium">Delete</button>
+                                <a href="{{ route('admin.purchases.edit', $purchase) }}" class="text-amber-400 hover:text-amber-300 text-xs font-medium">Edit</a>
+                                <button wire:click="delete({{ $purchase->id }})" wire:confirm="Delete this purchase?" class="text-red-400 hover:text-red-300 text-xs font-medium">Delete</button>
                             @endif
                         </div>
                     </td>

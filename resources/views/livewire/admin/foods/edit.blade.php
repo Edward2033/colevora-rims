@@ -93,7 +93,7 @@ $removeImage = function () {
         />
 
         @if(session('success'))
-            <div class="mb-4 p-3 bg-green-50 border border-green-200 text-green-700 rounded-lg text-sm">{{ session('success') }}</div>
+            <div class="mb-4 p-3 bg-green-500/10 border border-green-500/20 text-green-400 rounded-lg text-sm">{{ session('success') }}</div>
         @endif
 
         <div class="glass-card rounded-xl border border-gray-200 dark:border-gray-700 p-6">
@@ -155,7 +155,7 @@ $removeImage = function () {
                                     <p class="text-xs text-gray-500 mb-1">Current image</p>
                                     <button type="button" wire:click="removeImage"
                                         wire:confirm="Remove this image?"
-                                        class="text-xs text-red-600 hover:text-red-800 font-medium">
+                                        class="text-xs text-red-400 hover:text-red-300 font-medium">
                                         Remove image
                                     </button>
                                 </div>
@@ -172,8 +172,8 @@ $removeImage = function () {
                     </div>
 
                     <div class="sm:col-span-2 flex items-center gap-3">
-                        <input type="checkbox" wire:model="availability" id="availability" class="rounded border-gray-300 text-orange-600 focus:ring-orange-500">
-                        <label for="availability" class="text-sm font-medium text-gray-700">Available for ordering</label>
+                        <input type="checkbox" wire:model="availability" id="availability" class="rounded border-gray-600 text-amber-500 focus:ring-amber-500">
+                        <label for="availability" class="text-sm font-medium text-gray-200">Available for ordering</label>
                     </div>
                 </div>
 

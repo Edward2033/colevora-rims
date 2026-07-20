@@ -44,22 +44,22 @@ $toggleStatus = function (int $id) {
         </x-admin.page-header>
 
         @if(session('success'))
-            <div class="mb-4 p-3 bg-green-50 border border-green-200 text-green-700 rounded-lg text-sm">{{ session('success') }}</div>
+            <div class="mb-4 p-3 bg-green-500/10 border border-green-500/20 text-green-400 rounded-lg text-sm">{{ session('success') }}</div>
         @endif
 
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 mb-5">
+        <div class="glass-card rounded-xl border border-white/[0.08] p-4 mb-5">
             <div class="flex flex-col sm:flex-row gap-3">
                 <div class="flex-1">
                     <input type="text" wire:model.live.debounce.300ms="search"
                         placeholder="Search by table number or location..."
-                        class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+                        class="w-full px-3 py-2 text-sm border border-white/10 bg-white/5 text-gray-200 placeholder-gray-500 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent">
                 </div>
-                <select wire:model.live="statusFilter" class="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500">
-                    <option value="">All Status</option>
-                    <option value="available">Available</option>
-                    <option value="occupied">Occupied</option>
-                    <option value="reserved">Reserved</option>
-                    <option value="maintenance">Maintenance</option>
+                <select wire:model.live="statusFilter" class="px-3 py-2 text-sm border border-white/10 bg-white/5 text-gray-200 rounded-lg focus:ring-2 focus:ring-amber-500">
+                    <option value="" class="bg-gray-900">All Status</option>
+                    <option value="available" class="bg-gray-900">Available</option>
+                    <option value="occupied" class="bg-gray-900">Occupied</option>
+                    <option value="reserved" class="bg-gray-900">Reserved</option>
+                    <option value="maintenance" class="bg-gray-900">Maintenance</option>
                 </select>
             </div>
         </div>
@@ -69,10 +69,10 @@ $toggleStatus = function (int $id) {
                 @php
                     $statusColors = ['available'=>'green','occupied'=>'red','reserved'=>'yellow','maintenance'=>'gray'];
                 @endphp
-                <tr class="hover:bg-gray-50 transition" wire:key="table-{{ $table->id }}">
-                    <td class="px-4 py-3 text-sm font-bold text-gray-900">{{ $table->table_number }}</td>
-                    <td class="px-4 py-3 text-sm text-gray-600">{{ $table->capacity }} seats</td>
-                    <td class="px-4 py-3 text-sm text-gray-600">{{ $table->location ?? '—' }}</td>
+                <tr class="hover:bg-amber-500/5 transition" wire:key="table-{{ $table->id }}">
+                    <td class="px-4 py-3 text-sm font-bold text-white">{{ $table->table_number }}</td>
+                    <td class="px-4 py-3 text-sm text-gray-300">{{ $table->capacity }} seats</td>
+                    <td class="px-4 py-3 text-sm text-gray-300">{{ $table->location ?? '—' }}</td>
                     <td class="px-4 py-3">
                         <button wire:click="toggleStatus({{ $table->id }})" class="focus:outline-none">
                             <x-admin.badge :label="ucfirst($table->status)" :color="$statusColors[$table->status] ?? 'gray'"/>
@@ -81,9 +81,9 @@ $toggleStatus = function (int $id) {
                     <td class="px-4 py-3"><x-admin.badge :label="$table->orders_count" color="blue"/></td>
                     <td class="px-4 py-3">
                         <div class="flex items-center gap-2">
-                            <a href="{{ route('admin.tables.show', $table) }}" class="text-blue-600 hover:text-blue-800 text-xs font-medium">View</a>
-                            <a href="{{ route('admin.tables.edit', $table) }}" class="text-orange-600 hover:text-orange-800 text-xs font-medium">Edit</a>
-                            <button wire:click="delete({{ $table->id }})" wire:confirm="Delete this table?" class="text-red-600 hover:text-red-800 text-xs font-medium">Delete</button>
+                            <a href="{{ route('admin.tables.show', $table) }}" class="text-blue-400 hover:text-blue-300 text-xs font-medium">View</a>
+                            <a href="{{ route('admin.tables.edit', $table) }}" class="text-amber-400 hover:text-amber-300 text-xs font-medium">Edit</a>
+                            <button wire:click="delete({{ $table->id }})" wire:confirm="Delete this table?" class="text-red-400 hover:text-red-300 text-xs font-medium">Delete</button>
                         </div>
                     </td>
                 </tr>

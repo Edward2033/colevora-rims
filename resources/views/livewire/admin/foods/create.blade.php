@@ -133,8 +133,8 @@ $save = function () {
                     </div>
 
                     <div class="sm:col-span-2 flex items-center gap-3">
-                        <input type="checkbox" wire:model="availability" id="availability" class="rounded border-gray-300 text-orange-600 focus:ring-orange-500">
-                        <label for="availability" class="text-sm font-medium text-gray-700">Available for ordering</label>
+                        <input type="checkbox" wire:model="availability" id="availability" class="rounded border-gray-600 text-amber-500 focus:ring-amber-500">
+                        <label for="availability" class="text-sm font-medium text-gray-200">Available for ordering</label>
                     </div>
                 </div>
 

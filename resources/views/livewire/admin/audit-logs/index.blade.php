@@ -34,29 +34,29 @@ $actions = computed(fn() => AuditLog::distinct()->pluck('action')->sort()->value
             :breadcrumbs="[['label'=>'Admin','url'=>route('admin.dashboard')],['label'=>'Audit Logs']]"
         />
 
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 mb-5">
+        <div class="glass-card rounded-xl border border-white/[0.08] p-4 mb-5">
             <div class="flex flex-col sm:flex-row gap-3 flex-wrap">
                 <div class="flex-1 min-w-48">
                     <input type="text" wire:model.live.debounce.300ms="search"
                         placeholder="Search logs..."
-                        class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+                        class="w-full px-3 py-2 text-sm border border-white/10 bg-white/5 text-gray-200 placeholder-gray-500 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent">
                 </div>
-                <select wire:model.live="userFilter" class="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500">
-                    <option value="">All Users</option>
+                <select wire:model.live="userFilter" class="px-3 py-2 text-sm border border-white/10 bg-white/5 text-gray-200 rounded-lg focus:ring-2 focus:ring-amber-500">
+                    <option value="" class="bg-gray-900">All Users</option>
                     @foreach($this->users as $u)
-                        <option value="{{ $u->id }}">{{ $u->name }}</option>
+                        <option value="{{ $u->id }}" class="bg-gray-900">{{ $u->name }}</option>
                     @endforeach
                 </select>
-                <select wire:model.live="actionFilter" class="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500">
-                    <option value="">All Actions</option>
+                <select wire:model.live="actionFilter" class="px-3 py-2 text-sm border border-white/10 bg-white/5 text-gray-200 rounded-lg focus:ring-2 focus:ring-amber-500">
+                    <option value="" class="bg-gray-900">All Actions</option>
                     @foreach($this->actions as $action)
-                        <option value="{{ $action }}">{{ ucfirst($action) }}</option>
+                        <option value="{{ $action }}" class="bg-gray-900">{{ ucfirst($action) }}</option>
                     @endforeach
                 </select>
-                <input type="date" wire:model.live="dateFrom" placeholder="From"
-                    class="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500">
-                <input type="date" wire:model.live="dateTo" placeholder="To"
-                    class="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500">
+                <input type="date" wire:model.live="dateFrom"
+                    class="px-3 py-2 text-sm border border-white/10 bg-white/5 text-gray-200 rounded-lg focus:ring-2 focus:ring-amber-500">
+                <input type="date" wire:model.live="dateTo"
+                    class="px-3 py-2 text-sm border border-white/10 bg-white/5 text-gray-200 rounded-lg focus:ring-2 focus:ring-amber-500">
             </div>
         </div>
 
@@ -71,18 +71,18 @@ $actions = computed(fn() => AuditLog::distinct()->pluck('action')->sort()->value
                     ];
                     $color = $actionColors[strtolower($log->action)] ?? 'gray';
                 @endphp
-                <tr class="hover:bg-gray-50 transition" wire:key="log-{{ $log->id }}">
-                    <td class="px-4 py-3 text-xs text-gray-500">{{ $log->id }}</td>
+                <tr class="hover:bg-amber-500/5 transition" wire:key="log-{{ $log->id }}">
+                    <td class="px-4 py-3 text-xs text-gray-400">{{ $log->id }}</td>
                     <td class="px-4 py-3">
-                        <p class="text-sm font-medium text-gray-900">{{ $log->user?->name ?? 'System' }}</p>
+                        <p class="text-sm font-medium text-white">{{ $log->user?->name ?? 'System' }}</p>
                         <p class="text-xs text-gray-400">{{ $log->user?->email ?? '' }}</p>
                     </td>
                     <td class="px-4 py-3">
                         <x-admin.badge :label="ucfirst($log->action)" :color="$color"/>
                     </td>
-                    <td class="px-4 py-3 text-sm text-gray-600 max-w-xs truncate">{{ $log->description }}</td>
-                    <td class="px-4 py-3 text-xs font-mono text-gray-500">{{ $log->ip_address ?? '—' }}</td>
-                    <td class="px-4 py-3 text-xs text-gray-500">{{ $log->created_at->format('M d, Y H:i') }}</td>
+                    <td class="px-4 py-3 text-sm text-gray-300 max-w-xs truncate">{{ $log->description }}</td>
+                    <td class="px-4 py-3 text-xs font-mono text-gray-400">{{ $log->ip_address ?? '—' }}</td>
+                    <td class="px-4 py-3 text-xs text-gray-400">{{ $log->created_at->format('M d, Y H:i') }}</td>
                 </tr>
             @empty
                 <tr>
