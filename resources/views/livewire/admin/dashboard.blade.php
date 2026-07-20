@@ -47,18 +47,18 @@ mount(function () {
 
 ?>
 
-<div>
+<div class="w-full max-w-full overflow-x-hidden">
     <!-- Welcome Header -->
-    <div class="glass-card rounded-2xl p-8 mb-8 border border-gold-500/20 hover-glow">
-        <div class="flex items-center justify-between">
-            <div>
-                <h2 class="text-3xl font-bold text-white mb-2">
+    <div class="glass-card rounded-2xl p-4 sm:p-6 lg:p-8 mb-4 sm:mb-6 lg:mb-8 border border-gold-500/20 hover-glow">
+        <div class="welcome-card-content flex items-center justify-between flex-col sm:flex-row gap-4">
+            <div class="w-full sm:w-auto">
+                <h2 class="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">
                     Welcome back, <span class="bg-gradient-to-r from-gold-400 to-gold-600 bg-clip-text text-transparent">{{ auth()->user()->name }}</span>! 👋
                 </h2>
-                <p class="text-gray-300">Here's what's happening with your restaurant today.</p>
+                <p class="text-sm sm:text-base text-gray-300">Here's what's happening with your restaurant today.</p>
             </div>
-            <div class="hidden md:flex items-center space-x-4">
-                <a href="{{ route('admin.orders.create') }}" class="px-6 py-3 rounded-xl bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white font-semibold shadow-lg hover:shadow-gold-500/50 transition-all transform hover:scale-105">
+            <div class="w-full sm:w-auto mobile-hide-btn">
+                <a href="{{ route('admin.orders.create') }}" class="flex items-center justify-center px-4 sm:px-6 py-2 sm:py-3 rounded-xl bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white text-sm sm:text-base font-semibold shadow-lg hover:shadow-gold-500/50 transition-all transform hover:scale-105">
                     <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
                     </svg>
@@ -69,7 +69,7 @@ mount(function () {
     </div>
 
     <!-- Statistics Cards Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-4 sm:mb-6 lg:mb-8">
         <!-- Total Sales Card -->
         <div class="glass-card rounded-2xl p-6 border border-gold-500/20 hover-glow transition-all transform hover:-translate-y-1 stat-card">
             <div class="flex items-center justify-between mb-4">
@@ -179,66 +179,66 @@ mount(function () {
     </div>
 
     <!-- Charts Section -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-4 sm:mb-6 lg:mb-8">
         <!-- Daily Sales Chart -->
-        <div class="glass-card rounded-2xl p-6 border border-gold-500/20 hover-glow">
-            <div class="flex items-center justify-between mb-4">
-                <div>
-                    <h3 class="text-lg font-semibold text-white">Daily Sales</h3>
-                    <p class="text-sm text-gray-300">Revenue trends this month</p>
+        <div class="glass-card rounded-2xl p-4 sm:p-6 border border-gold-500/20 hover-glow">
+            <div class="flex items-center justify-between mb-4 flex-col sm:flex-row gap-2">
+                <div class="w-full sm:w-auto">
+                    <h3 class="text-base sm:text-lg font-semibold text-white">Daily Sales</h3>
+                    <p class="text-xs sm:text-sm text-gray-300">Revenue trends this month</p>
                 </div>
                 <div class="px-3 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/30">
                     <span class="text-xs font-medium text-emerald-300">This Month</span>
                 </div>
             </div>
-            <div class="relative h-64">
+            <div class="relative h-48 sm:h-56 md:h-64 w-full">
                 <canvas id="dailySalesChart"></canvas>
             </div>
         </div>
 
         <!-- Order Status Distribution -->
-        <div class="glass-card rounded-2xl p-6 border border-gold-500/20 hover-glow">
+        <div class="glass-card rounded-2xl p-4 sm:p-6 border border-gold-500/20 hover-glow">
             <div class="flex items-center justify-between mb-4">
                 <div>
-                    <h3 class="text-lg font-semibold text-white">Order Status</h3>
-                    <p class="text-sm text-gray-300">Current order distribution</p>
+                    <h3 class="text-base sm:text-lg font-semibold text-white">Order Status</h3>
+                    <p class="text-xs sm:text-sm text-gray-300">Current order distribution</p>
                 </div>
             </div>
-            <div class="relative h-64">
+            <div class="relative h-48 sm:h-56 md:h-64 w-full">
                 <canvas id="orderStatusChart"></canvas>
             </div>
         </div>
     </div>
 
     <!-- Recent Activity Section -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-4 sm:mb-6 lg:mb-8">
         <!-- Recent Orders -->
-        <div class="glass-card rounded-2xl border border-gold-500/20 hover-glow overflow-hidden">
-            <div class="p-6 border-b border-gold-500/10">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <h3 class="text-lg font-semibold text-white">Recent Orders</h3>
-                        <p class="text-sm text-gray-300">Latest customer orders</p>
+        <div class="glass-card rounded-2xl border border-gold-500/20 hover-glow overflow-hidden w-full">
+            <div class="p-4 sm:p-6 border-b border-gold-500/10">
+                <div class="flex items-center justify-between flex-col sm:flex-row gap-2">
+                    <div class="w-full sm:w-auto">
+                        <h3 class="text-base sm:text-lg font-semibold text-white">Recent Orders</h3>
+                        <p class="text-xs sm:text-sm text-gray-300">Latest customer orders</p>
                     </div>
-                    <a href="{{ route('admin.orders.index') }}" class="text-sm text-gold-400 hover:text-gold-300 font-medium transition-colors">
+                    <a href="{{ route('admin.orders.index') }}" class="text-xs sm:text-sm text-gold-400 hover:text-gold-300 font-medium transition-colors">
                         View All →
                     </a>
                 </div>
             </div>
-            <div class="divide-y divide-gold-500/10">
+            <div class="divide-y divide-gold-500/10 max-h-96 overflow-y-auto custom-scrollbar">
                 @forelse($recentOrders as $order)
-                    <div class="p-4 hover:bg-amber-500/5 transition-colors">
-                        <div class="flex items-center justify-between mb-2">
-                            <div class="flex items-center space-x-3">
-                                <div class="h-10 w-10 rounded-lg bg-gradient-to-br from-blue-500/20 to-blue-600/20 border border-blue-500/30 flex items-center justify-center">
-                                    <span class="text-sm font-bold text-blue-400">#{{ $order->id }}</span>
+                    <div class="p-3 sm:p-4 hover:bg-amber-500/5 transition-colors">
+                        <div class="flex items-center justify-between mb-2 flex-col sm:flex-row gap-3">
+                            <div class="flex items-center space-x-3 w-full sm:w-auto">
+                                <div class="h-10 w-10 flex-shrink-0 rounded-lg bg-gradient-to-br from-blue-500/20 to-blue-600/20 border border-blue-500/30 flex items-center justify-center">
+                                    <span class="text-xs sm:text-sm font-bold text-blue-400">#{{ $order->id }}</span>
                                 </div>
-                                <div>
-                                    <p class="text-sm font-medium text-white">{{ $order->customer->name ?? 'Guest' }}</p>
+                                <div class="min-w-0 flex-1">
+                                    <p class="text-xs sm:text-sm font-medium text-white truncate">{{ $order->customer->name ?? 'Guest' }}</p>
                                     <p class="text-xs text-gray-300">{{ $order->created_at->diffForHumans() }}</p>
                                 </div>
                             </div>
-                            <div class="text-right">
+                            <div class="text-right w-full sm:w-auto flex-shrink-0">
                                 <p class="text-sm font-semibold text-white">${{ number_format($order->total_amount ?? 0, 2) }}</p>
                                 @php
                                     $statusColors = [
@@ -268,34 +268,34 @@ mount(function () {
         </div>
 
         <!-- Low Stock Alerts -->
-        <div class="glass-card rounded-2xl border border-gold-500/20 hover-glow overflow-hidden">
-            <div class="p-6 border-b border-gold-500/10">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <h3 class="text-lg font-semibold text-white">Low Stock Alerts</h3>
-                        <p class="text-sm text-gray-300">Items needing restock</p>
+        <div class="glass-card rounded-2xl border border-gold-500/20 hover-glow overflow-hidden w-full">
+            <div class="p-4 sm:p-6 border-b border-gold-500/10">
+                <div class="flex items-center justify-between flex-col sm:flex-row gap-2">
+                    <div class="w-full sm:w-auto">
+                        <h3 class="text-base sm:text-lg font-semibold text-white">Low Stock Alerts</h3>
+                        <p class="text-xs sm:text-sm text-gray-300">Items needing restock</p>
                     </div>
-                    <a href="{{ route('admin.inventory.items.index') }}" class="text-sm text-gold-400 hover:text-gold-300 font-medium transition-colors">
+                    <a href="{{ route('admin.inventory.items.index') }}" class="text-xs sm:text-sm text-gold-400 hover:text-gold-300 font-medium transition-colors">
                         View All →
                     </a>
                 </div>
             </div>
-            <div class="divide-y divide-gold-500/10">
+            <div class="divide-y divide-gold-500/10 max-h-96 overflow-y-auto custom-scrollbar">
                 @forelse($lowStockItems as $item)
-                    <div class="p-4 hover:bg-amber-500/5 transition-colors">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center space-x-3">
-                                <div class="h-10 w-10 rounded-lg bg-gradient-to-br from-red-500/20 to-red-600/20 border border-red-500/30 flex items-center justify-center">
+                    <div class="p-3 sm:p-4 hover:bg-amber-500/5 transition-colors">
+                        <div class="flex items-center justify-between flex-col sm:flex-row gap-3">
+                            <div class="flex items-center space-x-3 w-full sm:w-auto">
+                                <div class="h-10 w-10 flex-shrink-0 rounded-lg bg-gradient-to-br from-red-500/20 to-red-600/20 border border-red-500/30 flex items-center justify-center">
                                     <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
                                     </svg>
                                 </div>
-                                <div>
-                                    <p class="text-sm font-medium text-white">{{ $item->name }}</p>
-                                    <p class="text-xs text-gray-300">{{ $item->category->name ?? 'Uncategorized' }}</p>
+                                <div class="min-w-0 flex-1">
+                                    <p class="text-xs sm:text-sm font-medium text-white truncate">{{ $item->name }}</p>
+                                    <p class="text-xs text-gray-300 truncate">{{ $item->category->name ?? 'Uncategorized' }}</p>
                                 </div>
                             </div>
-                            <div class="text-right">
+                            <div class="text-right w-full sm:w-auto flex-shrink-0">
                                 <p class="text-sm font-semibold text-red-400">{{ $item->quantity }} {{ $item->unit }}</p>
                                 <p class="text-xs text-gray-300">Min: {{ $item->minimum_quantity }}</p>
                             </div>
@@ -314,49 +314,49 @@ mount(function () {
     </div>
 
     <!-- Quick Actions -->
-    <div class="glass-card rounded-2xl p-6 border border-gold-500/20 hover-glow">
-        <h3 class="text-lg font-semibold text-white mb-4">Quick Actions</h3>
-        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-            <a href="{{ route('admin.foods.create') }}" class="flex flex-col items-center justify-center p-4 rounded-xl bg-white/5 hover:bg-gold-500/10 border border-transparent hover:border-gold-500/30 transition-all group">
-                <svg class="w-8 h-8 text-gray-400 group-hover:text-gold-400 transition-colors mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <div class="glass-card rounded-2xl p-4 sm:p-6 border border-gold-500/20 hover-glow w-full">
+        <h3 class="text-base sm:text-lg font-semibold text-white mb-4">Quick Actions</h3>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4">
+            <a href="{{ route('admin.foods.create') }}" class="flex flex-col items-center justify-center p-3 sm:p-4 rounded-xl bg-white/5 hover:bg-gold-500/10 border border-transparent hover:border-gold-500/30 transition-all group">
+                <svg class="w-6 h-6 sm:w-8 sm:h-8 text-gray-400 group-hover:text-gold-400 transition-colors mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
                 </svg>
-                <span class="text-xs text-gray-400 group-hover:text-white transition-colors">Add Food</span>
+                <span class="text-xs text-gray-400 group-hover:text-white transition-colors text-center">Add Food</span>
             </a>
             
-            <a href="{{ route('admin.categories.create') }}" class="flex flex-col items-center justify-center p-4 rounded-xl bg-white/5 hover:bg-gold-500/10 border border-transparent hover:border-gold-500/30 transition-all group">
-                <svg class="w-8 h-8 text-gray-400 group-hover:text-gold-400 transition-colors mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <a href="{{ route('admin.categories.create') }}" class="flex flex-col items-center justify-center p-3 sm:p-4 rounded-xl bg-white/5 hover:bg-gold-500/10 border border-transparent hover:border-gold-500/30 transition-all group">
+                <svg class="w-6 h-6 sm:w-8 sm:h-8 text-gray-400 group-hover:text-gold-400 transition-colors mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
                 </svg>
-                <span class="text-xs text-gray-400 group-hover:text-white transition-colors">Add Category</span>
+                <span class="text-xs text-gray-400 group-hover:text-white transition-colors text-center">Add Category</span>
             </a>
             
-            <a href="{{ route('admin.employees.create') }}" class="flex flex-col items-center justify-center p-4 rounded-xl bg-white/5 hover:bg-gold-500/10 border border-transparent hover:border-gold-500/30 transition-all group">
-                <svg class="w-8 h-8 text-gray-400 group-hover:text-gold-400 transition-colors mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <a href="{{ route('admin.employees.create') }}" class="flex flex-col items-center justify-center p-3 sm:p-4 rounded-xl bg-white/5 hover:bg-gold-500/10 border border-transparent hover:border-gold-500/30 transition-all group">
+                <svg class="w-6 h-6 sm:w-8 sm:h-8 text-gray-400 group-hover:text-gold-400 transition-colors mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
                 </svg>
-                <span class="text-xs text-gray-400 group-hover:text-white transition-colors">Add Employee</span>
+                <span class="text-xs text-gray-400 group-hover:text-white transition-colors text-center">Add Employee</span>
             </a>
             
-            <a href="{{ route('admin.purchases.create') }}" class="flex flex-col items-center justify-center p-4 rounded-xl bg-white/5 hover:bg-gold-500/10 border border-transparent hover:border-gold-500/30 transition-all group">
-                <svg class="w-8 h-8 text-gray-400 group-hover:text-gold-400 transition-colors mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <a href="{{ route('admin.purchases.create') }}" class="flex flex-col items-center justify-center p-3 sm:p-4 rounded-xl bg-white/5 hover:bg-gold-500/10 border border-transparent hover:border-gold-500/30 transition-all group">
+                <svg class="w-6 h-6 sm:w-8 sm:h-8 text-gray-400 group-hover:text-gold-400 transition-colors mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
                 </svg>
-                <span class="text-xs text-gray-400 group-hover:text-white transition-colors">New Purchase</span>
+                <span class="text-xs text-gray-400 group-hover:text-white transition-colors text-center">New Purchase</span>
             </a>
             
-            <a href="{{ route('admin.tables.index') }}" class="flex flex-col items-center justify-center p-4 rounded-xl bg-white/5 hover:bg-gold-500/10 border border-transparent hover:border-gold-500/30 transition-all group">
-                <svg class="w-8 h-8 text-gray-400 group-hover:text-gold-400 transition-colors mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <a href="{{ route('admin.tables.index') }}" class="flex flex-col items-center justify-center p-3 sm:p-4 rounded-xl bg-white/5 hover:bg-gold-500/10 border border-transparent hover:border-gold-500/30 transition-all group">
+                <svg class="w-6 h-6 sm:w-8 sm:h-8 text-gray-400 group-hover:text-gold-400 transition-colors mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
                 </svg>
-                <span class="text-xs text-gray-400 group-hover:text-white transition-colors">Manage Tables</span>
+                <span class="text-xs text-gray-400 group-hover:text-white transition-colors text-center">Manage Tables</span>
             </a>
             
-            <a href="{{ route('admin.reports.index') }}" class="flex flex-col items-center justify-center p-4 rounded-xl bg-white/5 hover:bg-gold-500/10 border border-transparent hover:border-gold-500/30 transition-all group">
-                <svg class="w-8 h-8 text-gray-400 group-hover:text-gold-400 transition-colors mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <a href="{{ route('admin.reports.index') }}" class="flex flex-col items-center justify-center p-3 sm:p-4 rounded-xl bg-white/5 hover:bg-gold-500/10 border border-transparent hover:border-gold-500/30 transition-all group">
+                <svg class="w-6 h-6 sm:w-8 sm:h-8 text-gray-400 group-hover:text-gold-400 transition-colors mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                 </svg>
-                <span class="text-xs text-gray-400 group-hover:text-white transition-colors">Generate Report</span>
+                <span class="text-xs text-gray-400 group-hover:text-white transition-colors text-center">Generate Report</span>
             </a>
         </div>
     </div>
@@ -390,8 +390,7 @@ mount(function () {
         },
         options: {
             responsive: true,
-            maintainAspectRatio: true,
-            aspectRatio: 2,
+            maintainAspectRatio: false,
             plugins: {
                 legend: {
                     display: false
@@ -428,7 +427,7 @@ mount(function () {
                     ticks: {
                         color: '#d1d5db',
                         font: {
-                            size: 11
+                            size: window.innerWidth < 640 ? 9 : 11
                         },
                         callback: function(value) {
                             return '\$' + value.toFixed(0);
@@ -442,7 +441,7 @@ mount(function () {
                     ticks: {
                         color: '#d1d5db',
                         font: {
-                            size: 11
+                            size: window.innerWidth < 640 ? 9 : 11
                         },
                         maxRotation: 45,
                         minRotation: 0
@@ -476,16 +475,15 @@ mount(function () {
         },
         options: {
             responsive: true,
-            maintainAspectRatio: true,
-            aspectRatio: 1.5,
+            maintainAspectRatio: false,
             plugins: {
                 legend: {
                     position: 'bottom',
                     labels: {
                         color: '#d1d5db',
-                        padding: 12,
+                        padding: window.innerWidth < 640 ? 8 : 12,
                         font: {
-                            size: 12,
+                            size: window.innerWidth < 640 ? 10 : 12,
                             weight: '500'
                         },
                         usePointStyle: true,

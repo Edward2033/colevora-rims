@@ -18,26 +18,56 @@
         .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(203,148,61,0.5); border-radius: 3px; }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(203,148,61,0.7); }
         [x-cloak] { display: none !important; }
+        
+        /* Mobile Responsive */
+        @media (max-width: 1023px) {
+            aside { 
+                position: fixed !important; 
+                height: 100vh; 
+                z-index: 50; 
+                transform: translateX(-100%); 
+                transition: transform 0.3s;
+                top: 0;
+                left: 0;
+            }
+            aside.mobile-open { transform: translateX(0); }
+            main { padding: 16px !important; }
+        }
+        
+        /* Ensure tables scroll horizontally on mobile */
+        @media (max-width: 767px) {
+            .table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        }
     </style>
 </head>
-<body class="font-sans antialiased luxury-bg min-h-screen text-gray-100" x-data="{ sidebarOpen: true }" x-cloak>
+<body class="font-sans antialiased luxury-bg min-h-screen text-gray-100" x-data="{ sidebarOpen: false }" x-cloak>
+
+    <!-- Mobile Overlay -->
+    <div x-show="sidebarOpen" @click="sidebarOpen = false" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden" x-transition x-cloak></div>
 
     <div class="flex h-screen overflow-hidden">
 
         {{-- Sidebar --}}
-        <aside class="glass-card border-r border-amber-500/10 transition-all duration-300 flex-shrink-0 flex flex-col custom-scrollbar overflow-y-auto w-64">
+        <aside :class="sidebarOpen ? 'mobile-open' : ''" class="glass-card border-r border-amber-500/10 transition-all duration-300 flex-shrink-0 flex flex-col custom-scrollbar overflow-y-auto w-64">
 
             {{-- Logo --}}
-            <div class="flex items-center gap-3 p-6 border-b border-amber-500/10">
-                <div class="h-10 w-10 rounded-xl gold-gradient flex items-center justify-center shadow-lg flex-shrink-0">
-                    <svg class="w-6 h-6 text-slate-900" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"/>
+            <div class="flex items-center justify-between gap-3 p-6 border-b border-amber-500/10">
+                <div class="flex items-center gap-3">
+                    <div class="h-10 w-10 rounded-xl gold-gradient flex items-center justify-center shadow-lg flex-shrink-0">
+                        <svg class="w-6 h-6 text-slate-900" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-lg font-bold text-white">COLEVORA</h1>
+                        <p class="text-xs text-amber-400">{{ auth()->user()->roles->first()?->name ?? 'Employee' }}</p>
+                    </div>
+                </div>
+                <button @click="sidebarOpen = false" class="lg:hidden text-gray-400 hover:text-amber-400 p-2">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
-                </div>
-                <div>
-                    <h1 class="text-lg font-bold text-white">COLEVORA</h1>
-                    <p class="text-xs text-amber-400">{{ auth()->user()->roles->first()?->name ?? 'Employee' }}</p>
-                </div>
+                </button>
             </div>
 
             {{-- Navigation --}}
@@ -132,8 +162,14 @@
 
             {{-- Top Header --}}
             <header class="glass-card border-b border-amber-500/10 sticky top-0 z-40">
-                <div class="flex items-center justify-between px-8 py-4">
-                    <div>
+                <div class="flex items-center justify-between px-4 md:px-8 py-4">
+                    <div class="flex items-center gap-4">
+                        <button @click="sidebarOpen = true" class="lg:hidden text-gray-400 hover:text-amber-400 p-2">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                            </svg>
+                        </button>
+                        <div>
                         <p class="text-sm text-gray-400">
                             <span id="empCurrentDate"></span> • <span id="empCurrentTime"></span>
                         </p>

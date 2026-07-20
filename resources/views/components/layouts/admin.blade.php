@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $title ?? 'Admin Dashboard' }} - {{ config('app.name') }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -11,20 +11,36 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
     <style>
+        /* Base Styles */
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        html, body {
+            overflow-x: hidden;
+            max-width: 100%;
+            position: relative;
+        }
+        
         .luxury-bg {
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
         }
+        
         .glass-card {
             background: rgba(15, 23, 42, 0.6);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(203, 148, 61, 0.1);
         }
+        
         .gold-gradient {
             background: linear-gradient(135deg, #cb943d 0%, #f4d03f 50%, #cb943d 100%);
         }
+        
         .hover-glow:hover {
             box-shadow: 0 0 20px rgba(203, 148, 61, 0.3);
         }
+        
+        /* Navigation Styles */
         .nav-sub-item {
             display: flex;
             align-items: center;
@@ -34,15 +50,18 @@
             transition: all 0.2s;
             color: #9ca3af;
         }
+        
         .nav-sub-item:hover {
             background: rgba(203, 148, 61, 0.15);
             color: #f4d03f;
         }
+        
         .nav-sub-item.active {
             background: rgba(203, 148, 61, 0.2);
             color: #f4d03f;
             font-weight: 600;
         }
+        
         .nav-top-item {
             display: flex;
             align-items: center;
@@ -51,25 +70,19 @@
             border-radius: 0.75rem;
             transition: all 0.2s;
         }
+        
         .nav-top-item:not(.active):hover {
             background: rgba(203, 148, 61, 0.12);
         }
+        
         .nav-top-item:not(.active):hover span {
             color: #ffffff;
         }
+        
         .nav-top-item:not(.active):hover svg {
             color: #f4d03f;
         }
-        /* Table row hover - dark theme safe */
-        .dark-table-row:hover,
-        tr:hover td {
-            background-color: rgba(203, 148, 61, 0.08) !important;
-        }
-        /* Dropdown hover - dark theme safe */
-        .dropdown-item-dark:hover {
-            background: rgba(255,255,255,0.08);
-            color: #ffffff;
-        }
+        
         .nav-group-btn {
             width: 100%;
             display: flex;
@@ -79,39 +92,165 @@
             border-radius: 0.75rem;
             transition: all 0.2s;
         }
+        
         .nav-group-btn:hover {
             background: rgba(203, 148, 61, 0.12);
         }
+        
         .nav-group-btn:hover span,
         .nav-group-btn:hover svg {
             color: #ffffff;
         }
-        .stat-card {
-            animation: countUp 0.6s ease-out;
-        }
+        
+        /* Scrollbar Styles */
         .custom-scrollbar::-webkit-scrollbar {
             width: 6px;
+            height: 6px;
         }
+        
         .custom-scrollbar::-webkit-scrollbar-track {
             background: rgba(30, 41, 59, 0.3);
         }
+        
         .custom-scrollbar::-webkit-scrollbar-thumb {
             background: rgba(203, 148, 61, 0.5);
             border-radius: 3px;
         }
+        
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
             background: rgba(203, 148, 61, 0.7);
         }
-        [x-cloak] { display: none !important; }
+        
+        /* Animation */
+        .stat-card {
+            animation: fadeInUp 0.6s ease-out forwards;
+            opacity: 0;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Chart Responsiveness */
+        canvas {
+            max-width: 100% !important;
+            height: auto !important;
+        }
+        
+        /* Alpine.js Cloak */
+        [x-cloak] {
+            display: none !important;
+        }
+        
+        /* Mobile Layout */
+        @media (max-width: 1023px) {
+            /* Hide sidebar off-screen by default */
+            .admin-sidebar {
+                position: fixed !important;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                width: 280px;
+                z-index: 50;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease-in-out;
+            }
+            
+            /* Show sidebar when open */
+            .admin-sidebar.mobile-open {
+                transform: translateX(0);
+            }
+            
+            /* Remove margin from main content on mobile */
+            .admin-main {
+                margin-left: 0 !important;
+                width: 100%;
+            }
+            
+            /* Responsive padding */
+            .admin-header {
+                padding-left: 1rem !important;
+                padding-right: 1rem !important;
+            }
+            
+            .admin-content {
+                padding: 1rem !important;
+            }
+            
+            /* Stack welcome card content */
+            .welcome-card-content {
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                gap: 1rem;
+            }
+            
+            /* Hide "New Order" button on mobile, show in quick actions instead */
+            .mobile-hide-btn {
+                display: none !important;
+            }
+        }
+        
+        /* Table Horizontal Scroll on Mobile */
+        @media (max-width: 767px) {
+            .table-container {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            .table-container table {
+                min-width: 600px;
+            }
+        }
+        
+        /* Ensure proper stacking */
+        .admin-layout {
+            display: flex;
+            min-height: 100vh;
+            max-width: 100vw;
+            overflow-x: hidden;
+        }
+        
+        .admin-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            width: 100%;
+            max-width: 100%;
+        }
+        
+        .admin-content {
+            flex: 1;
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+        }
     </style>
 </head>
-<body class="font-sans antialiased luxury-bg min-h-screen text-gray-100" x-data="{ sidebarOpen: true, notificationsOpen: false }" x-cloak>
-    <div class="flex h-screen overflow-hidden">
-        <!-- Luxury Sidebar -->
-        <aside :class="sidebarOpen ? 'w-72' : 'w-20'" class="glass-card border-r border-gold-500/10 transition-all duration-300 flex-shrink-0 flex flex-col custom-scrollbar overflow-y-auto">
+<body class="font-sans antialiased luxury-bg text-gray-100" x-data="{ sidebarOpen: false, notificationsOpen: false }" x-cloak>
+    <div class="admin-layout">
+        
+        <!-- Mobile Backdrop Overlay -->
+        <div x-show="sidebarOpen" 
+             @click="sidebarOpen = false" 
+             class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden" 
+             x-transition
+             x-cloak>
+        </div>
+
+        <!-- Sidebar -->
+        <aside :class="sidebarOpen ? 'mobile-open' : ''" 
+               class="admin-sidebar glass-card border-r border-gold-500/10 flex-shrink-0 flex flex-col custom-scrollbar overflow-y-auto lg:w-72 lg:relative lg:translate-x-0">
             <!-- Logo & Toggle -->
             <div class="flex items-center justify-between p-6 border-b border-gold-500/10">
-                <div x-show="sidebarOpen" class="flex items-center space-x-3 transition-all duration-300">
+                <div class="flex items-center space-x-3 transition-all duration-300">
                     <div class="h-10 w-10 rounded-xl gold-gradient flex items-center justify-center shadow-lg">
                         <svg class="w-6 h-6 text-slate-900" fill="currentColor" viewBox="0 0 20 20">
                             <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"/>
@@ -122,9 +261,9 @@
                         <p class="text-xs text-gray-400">Restaurant ERP</p>
                     </div>
                 </div>
-                <button @click="sidebarOpen = !sidebarOpen" class="text-gray-400 hover:text-gold-400 transition-colors p-2 hover:bg-white/5 rounded-lg">
+                <button @click="sidebarOpen = false" class="lg:hidden text-gray-400 hover:text-gold-400 transition-colors p-2 hover:bg-white/5 rounded-lg">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
                 </button>
             </div>
@@ -137,7 +276,7 @@
                     <svg class="w-5 h-5 flex-shrink-0 {{ request()->routeIs('admin.dashboard') ? 'text-gold-400' : 'text-gray-400' }} transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
                     </svg>
-                    <span x-show="sidebarOpen" class="{{ request()->routeIs('admin.dashboard') ? 'text-gold-400 font-semibold' : 'text-gray-300' }} transition-colors">Dashboard</span>
+                    <span class="{{ request()->routeIs('admin.dashboard') ? 'text-gold-400 font-semibold' : 'text-gray-300' }} transition-colors">Dashboard</span>
                 </a>
 
                 <!-- Orders -->
@@ -146,7 +285,7 @@
                     <svg class="w-5 h-5 flex-shrink-0 {{ request()->routeIs('admin.orders.*') ? 'text-gold-400' : 'text-gray-400' }} transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
                     </svg>
-                    <span x-show="sidebarOpen" class="{{ request()->routeIs('admin.orders.*') ? 'text-gold-400 font-semibold' : 'text-gray-300' }} transition-colors">Orders</span>
+                    <span class="{{ request()->routeIs('admin.orders.*') ? 'text-gold-400 font-semibold' : 'text-gray-300' }} transition-colors">Orders</span>
                 </a>
 
                 <!-- Menu Management -->
@@ -156,18 +295,18 @@
                             <svg class="w-5 h-5 text-gray-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
                             </svg>
-                            <span x-show="sidebarOpen" class="text-gray-300">Menu</span>
+                            <span class="text-gray-300">Menu</span>
                         </div>
-                        <svg x-show="sidebarOpen" :class="open ? 'rotate-180' : ''" class="w-4 h-4 text-gray-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg :class="open ? 'rotate-180' : ''" class="w-4 h-4 text-gray-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                         </svg>
                     </button>
                     <div x-show="open" x-collapse class="ml-4 mt-1 space-y-1">
                         <a href="{{ route('admin.categories.index') }}" class="nav-sub-item {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">
-                            <span x-show="sidebarOpen">Categories</span>
+                            <span>Categories</span>
                         </a>
                         <a href="{{ route('admin.foods.index') }}" class="nav-sub-item {{ request()->routeIs('admin.foods.*') ? 'active' : '' }}">
-                            <span x-show="sidebarOpen">Food Items</span>
+                            <span>Food Items</span>
                         </a>
                     </div>
                 </div>
@@ -179,9 +318,9 @@
                             <svg class="w-5 h-5 text-gray-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
                             </svg>
-                            <span x-show="sidebarOpen" class="text-gray-300">Inventory</span>
+                            <span class="text-gray-300">Inventory</span>
                         </div>
-                        <svg x-show="sidebarOpen" :class="open ? 'rotate-180' : ''" class="w-4 h-4 text-gray-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg :class="open ? 'rotate-180' : ''" class="w-4 h-4 text-gray-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                         </svg>
                     </button>
@@ -205,9 +344,9 @@
                             <svg class="w-5 h-5 text-gray-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
                             </svg>
-                            <span x-show="sidebarOpen" class="text-gray-300">Users & Staff</span>
+                            <span class="text-gray-300">Users & Staff</span>
                         </div>
-                        <svg x-show="sidebarOpen" :class="open ? 'rotate-180' : ''" class="w-4 h-4 text-gray-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg :class="open ? 'rotate-180' : ''" class="w-4 h-4 text-gray-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                         </svg>
                     </button>
@@ -230,7 +369,7 @@
                     <svg class="w-5 h-5 flex-shrink-0 {{ request()->routeIs('admin.reservations.*') ? 'text-gold-400' : 'text-gray-400' }} transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                     </svg>
-                    <span x-show="sidebarOpen" class="{{ request()->routeIs('admin.reservations.*') ? 'text-gold-400 font-semibold' : 'text-gray-300' }} transition-colors">Reservations</span>
+                    <span class="{{ request()->routeIs('admin.reservations.*') ? 'text-gold-400 font-semibold' : 'text-gray-300' }} transition-colors">Reservations</span>
                 </a>
 
                 <!-- Tables -->
@@ -239,7 +378,7 @@
                     <svg class="w-5 h-5 flex-shrink-0 {{ request()->routeIs('admin.tables.*') ? 'text-gold-400' : 'text-gray-400' }} transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
                     </svg>
-                    <span x-show="sidebarOpen" class="{{ request()->routeIs('admin.tables.*') ? 'text-gold-400 font-semibold' : 'text-gray-300' }} transition-colors">Tables</span>
+                    <span class="{{ request()->routeIs('admin.tables.*') ? 'text-gold-400 font-semibold' : 'text-gray-300' }} transition-colors">Tables</span>
                 </a>
 
                 <!-- Payments -->
@@ -248,7 +387,7 @@
                     <svg class="w-5 h-5 flex-shrink-0 {{ request()->routeIs('admin.payments.*') ? 'text-gold-400' : 'text-gray-400' }} transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
                     </svg>
-                    <span x-show="sidebarOpen" class="{{ request()->routeIs('admin.payments.*') ? 'text-gold-400 font-semibold' : 'text-gray-300' }} transition-colors">Payments</span>
+                    <span class="{{ request()->routeIs('admin.payments.*') ? 'text-gold-400 font-semibold' : 'text-gray-300' }} transition-colors">Payments</span>
                 </a>
 
                 <!-- CMS -->
@@ -258,9 +397,9 @@
                             <svg class="w-5 h-5 text-gray-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
                             </svg>
-                            <span x-show="sidebarOpen" class="text-gray-300">CMS</span>
+                            <span class="text-gray-300">CMS</span>
                         </div>
-                        <svg x-show="sidebarOpen" :class="open ? 'rotate-180' : ''" class="w-4 h-4 text-gray-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg :class="open ? 'rotate-180' : ''" class="w-4 h-4 text-gray-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                         </svg>
                     </button>
@@ -283,7 +422,7 @@
                     <svg class="w-5 h-5 flex-shrink-0 {{ request()->routeIs('admin.reports.*') ? 'text-gold-400' : 'text-gray-400' }} transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
                     </svg>
-                    <span x-show="sidebarOpen" class="{{ request()->routeIs('admin.reports.*') ? 'text-gold-400 font-semibold' : 'text-gray-300' }} transition-colors">Reports</span>
+                    <span class="{{ request()->routeIs('admin.reports.*') ? 'text-gold-400 font-semibold' : 'text-gray-300' }} transition-colors">Reports</span>
                 </a>
 
                 <!-- Audit Logs -->
@@ -292,7 +431,7 @@
                     <svg class="w-5 h-5 flex-shrink-0 {{ request()->routeIs('admin.audit-logs.*') ? 'text-gold-400' : 'text-gray-400' }} transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
                     </svg>
-                    <span x-show="sidebarOpen" class="{{ request()->routeIs('admin.audit-logs.*') ? 'text-gold-400 font-semibold' : 'text-gray-300' }} transition-colors">Audit Logs</span>
+                    <span class="{{ request()->routeIs('admin.audit-logs.*') ? 'text-gold-400 font-semibold' : 'text-gray-300' }} transition-colors">Audit Logs</span>
                 </a>
             </nav>
 
@@ -311,27 +450,34 @@
         </aside>
 
         <!-- Main Content Area -->
-        <div class="flex-1 flex flex-col overflow-hidden">
+        <div class="admin-main">
             <!-- Top Header -->
-            <header class="glass-card border-b border-gold-500/10 sticky top-0 z-40">
-                <div class="flex items-center justify-between px-8 py-4">
-                    <!-- Page Title & Breadcrumb -->
-                    <div>
-                        <h1 class="text-2xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-                            {{ $header ?? 'Dashboard' }}
-                        </h1>
-                        <p class="text-sm text-gray-400 mt-1">
-                            <span id="currentDate"></span> • <span id="currentTime"></span>
-                        </p>
+            <header class="admin-header glass-card border-b border-gold-500/10 sticky top-0 z-30">
+                <div class="flex items-center justify-between px-4 md:px-8 py-4">
+                    <div class="flex items-center gap-2 md:gap-4">
+                        <button @click="sidebarOpen = true" class="lg:hidden text-gray-400 hover:text-gold-400 transition-colors p-2 hover:bg-white/5 rounded-lg">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                            </svg>
+                        </button>
+                        <div>
+                            <h1 class="text-lg sm:text-xl md:text-2xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                                {{ $header ?? 'Dashboard' }}
+                            </h1>
+                            <p class="text-xs sm:text-sm text-gray-400 mt-0.5 md:mt-1">
+                                <span id="currentDate"></span> • <span id="currentTime"></span>
+                            </p>
+                        </div>
                     </div>
 
-                    <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-2 md:space-x-4">
                         <!-- Quick Actions -->
-                        <button class="px-4 py-2 rounded-xl bg-gold-500/10 hover:bg-gold-500/20 border border-gold-500/30 text-gold-400 text-sm font-medium transition-all hover-glow">
+                        <button class="hidden md:flex px-3 md:px-4 py-2 rounded-xl bg-gold-500/10 hover:bg-gold-500/20 border border-gold-500/30 text-gold-400 text-xs md:text-sm font-medium transition-all hover-glow">
                             <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
                             </svg>
-                            Quick Add
+                            <span class="hidden sm:inline">Quick Add</span>
+                            <span class="sm:hidden">Add</span>
                         </button>
 
                         <!-- Notifications -->
@@ -422,7 +568,7 @@
             </header>
 
             <!-- Page Content -->
-            <main class="flex-1 overflow-y-auto p-8 custom-scrollbar">
+            <main class="admin-content flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 custom-scrollbar w-full max-w-full">
                 {{ $slot }}
             </main>
         </div>

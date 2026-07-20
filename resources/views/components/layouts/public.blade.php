@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $title ?? \App\Models\SiteSetting::get('restaurant_name', 'Colevora Restaurant') }}</title>
     <meta name="description" content="{{ \App\Models\SiteSetting::get('meta_description', '') }}">
@@ -14,6 +14,101 @@
     @endif
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
+    <style>
+        /* Base Styles */
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        html, body {
+            overflow-x: hidden;
+            max-width: 100%;
+            position: relative;
+        }
+        
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Container responsiveness */
+        .public-container {
+            width: 100%;
+            max-width: 1280px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+        
+        @media (min-width: 640px) {
+            .public-container {
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .public-container {
+                padding-left: 2rem;
+                padding-right: 2rem;
+            }
+        }
+        
+        /* Navigation Height */
+        nav {
+            height: auto;
+            min-height: 64px;
+        }
+        
+        /* Main Content Layout */
+        main {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+        
+        /* Footer - Prevent Full Height */
+        footer {
+            width: 100%;
+            max-width: 100%;
+        }
+        
+        /* Floating Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        /* Touch Targets */
+        button, a {
+            min-height: 44px;
+            min-width: 44px;
+        }
+        
+        /* Scrollbar Styles */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(30, 41, 59, 0.3);
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(203, 148, 61, 0.5);
+            border-radius: 3px;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(203, 148, 61, 0.7);
+        }
+    </style>
 </head>
 <body class="font-sans antialiased bg-gray-50" x-data="{ mobileMenuOpen: false, showBackToTop: false, cookieConsent: localStorage.getItem('cookie_consent') === 'true' }"
       x-init="window.addEventListener('scroll', () => { showBackToTop = window.scrollY > 400 })">
@@ -42,8 +137,8 @@
 
     {{-- Navigation --}}
     <nav class="bg-white shadow-md sticky top-0 z-50">
-        <div class="container mx-auto px-4">
-            <div class="flex justify-between items-center h-16">
+        <div class="public-container">
+            <div class="flex justify-between items-center h-14 sm:h-16">
                 {{-- Logo --}}
                 <a href="{{ route('home') }}" class="flex items-center space-x-2">
                     @if(\App\Models\SiteSetting::get('logo'))
@@ -97,8 +192,8 @@
             </div>
 
             {{-- Mobile Menu --}}
-            <div x-show="mobileMenuOpen" x-cloak x-transition class="md:hidden py-3 border-t border-gray-100">
-                <div class="flex flex-col space-y-1">
+            <div x-show="mobileMenuOpen" x-cloak x-transition class="md:hidden py-2 border-t border-gray-100">
+                <div class="flex flex-col space-y-0.5">
                     @foreach([['home','Home'],['menu','Menu'],['about','About'],['gallery','Gallery'],['reservation','Reserve'],['contact','Contact']] as [$route,$label])
                     <a href="{{ route($route) }}" class="px-4 py-2 text-gray-700 hover:text-gold-600 hover:bg-gold-50 rounded-lg font-medium transition-all duration-200">{{ $label }}</a>
                     @endforeach
@@ -121,12 +216,12 @@
 
     {{-- Footer --}}
     <footer class="bg-gray-900 text-white">
-        <div class="container mx-auto px-4 py-14">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+        <div class="public-container py-8 sm:py-10 md:py-14">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 md:gap-10">
                 {{-- Brand --}}
                 <div>
-                    <h3 class="text-xl font-bold mb-3">{{ \App\Models\SiteSetting::get('restaurant_name', 'Colevora Restaurant') }}</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed mb-5">{{ \App\Models\SiteSetting::get('footer_about', 'Experience the finest dining with our exquisite menu and exceptional service.') }}</p>
+                    <h3 class="text-lg sm:text-xl font-bold mb-2 sm:mb-3">{{ \App\Models\SiteSetting::get('restaurant_name', 'Colevora Restaurant') }}</h3>
+                    <p class="text-gray-400 text-xs sm:text-sm leading-relaxed mb-3 sm:mb-5">{{ \App\Models\SiteSetting::get('footer_about', 'Experience the finest dining with our exquisite menu and exceptional service.') }}</p>
                     <div class="flex space-x-3">
                         @if($fb = \App\Models\SiteSetting::get('facebook'))
                         <a href="{{ $fb }}" target="_blank" class="w-9 h-9 bg-gray-800 hover:bg-gold-600 rounded-lg flex items-center justify-center transition-all duration-300 transform hover:scale-110 hover:shadow-lg">
