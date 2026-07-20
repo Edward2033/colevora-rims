@@ -28,9 +28,16 @@ new #[Layout('components.layouts.app')] class extends Component {
             throw $e;
         }
 
-        Auth::user()->update([
+        $user = Auth::user();
+        $user->update([
             'password' => Hash::make($validated['password']),
         ]);
+
+        // Update the session with the new password hash to keep user logged in
+        Auth::logoutOtherDevices($validated['password']);
+        
+        // Refresh the authenticated user instance
+        Auth::setUser($user->fresh());
 
         $this->reset('current_password', 'password', 'password_confirmation');
 

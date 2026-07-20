@@ -48,6 +48,9 @@ new #[Layout('components.layouts.app')] class extends Component {
 
         $user->save();
 
+        // Refresh the authenticated user instance to ensure session has updated data
+        Auth::setUser($user->fresh());
+
         $this->dispatch('profile-updated', name: $user->name);
     }
 

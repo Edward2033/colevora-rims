@@ -134,10 +134,7 @@
             <header class="glass-card border-b border-amber-500/10 sticky top-0 z-40">
                 <div class="flex items-center justify-between px-8 py-4">
                     <div>
-                        <h1 class="text-2xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-                            {{ auth()->user()->roles->first()?->name ?? 'Employee' }} Dashboard
-                        </h1>
-                        <p class="text-sm text-gray-400 mt-1">
+                        <p class="text-sm text-gray-400">
                             <span id="empCurrentDate"></span> • <span id="empCurrentTime"></span>
                         </p>
                     </div>
