@@ -42,6 +42,16 @@
                     </a>
 
                     <div class="flex items-center space-x-6">
+                        <!-- Real-time Date & Time -->
+                        <div class="hidden md:block text-right">
+                            <p class="text-xs text-gray-400">
+                                <span id="customerCurrentDate"></span>
+                            </p>
+                            <p class="text-xs text-gold-400 font-medium">
+                                <span id="customerCurrentTime"></span>
+                            </p>
+                        </div>
+                        
                         <a href="{{ route('home') }}" class="text-gray-300 hover:text-gold-400 transition-colors">Home</a>
                         <a href="{{ route('menu') }}" class="text-gray-300 hover:text-gold-400 transition-colors">Menu</a>
                         <a href="{{ route('customer.dashboard') }}" class="text-gray-300 hover:text-gold-400 transition-colors">Dashboard</a>
@@ -124,5 +134,34 @@
 
     @livewireScripts
     @fluxScripts
+    
+    <script>
+        // Update real-time date and time for customer layout
+        function updateDateTime() {
+            const now = new Date();
+            const dateEl = document.getElementById('customerCurrentDate');
+            const timeEl = document.getElementById('customerCurrentTime');
+            
+            if (dateEl) {
+                dateEl.textContent = now.toLocaleDateString('en-US', { 
+                    weekday: 'long', 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                });
+            }
+            
+            if (timeEl) {
+                timeEl.textContent = now.toLocaleTimeString('en-US', { 
+                    hour: '2-digit', 
+                    minute: '2-digit', 
+                    second: '2-digit' 
+                });
+            }
+        }
+        
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
+    </script>
 </body>
 </html>
