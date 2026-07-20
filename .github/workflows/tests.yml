@@ -54,9 +54,6 @@ jobs:
         run: |
           mysql --host=127.0.0.1 --port=3306 -uroot -ppassword -e "SHOW DATABASES;"
 
-      - name: Install Dependencies
-        run: composer install --no-interaction --prefer-dist --optimize-autoloader
-
       - name: Copy Environment File
         run: cp .env.example .env
 
@@ -68,6 +65,12 @@ jobs:
           echo "DB_DATABASE=colevora_rims_testing" >> .env
           echo "DB_USERNAME=root" >> .env
           echo "DB_PASSWORD=password" >> .env
+
+      - name: Create Storage Directories
+        run: mkdir -p storage/framework/views storage/framework/cache/data storage/framework/sessions storage/logs
+
+      - name: Install Dependencies
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader
 
       - name: Generate Application Key
         run: php artisan key:generate
